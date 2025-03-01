@@ -420,6 +420,59 @@
             update();
             requestAnimationFrame(gameLoop);
         }
+     // for phone sysyem
+
+	    document.addEventListener("DOMContentLoaded", function () {
+    let rocket = document.getElementById("rocket");
+    let gameArea = document.getElementById("gameArea");
+    let startButton = document.getElementById("startButton");
+    let rocketPosition = 50;
+    let gameStarted = false;
+    
+    function moveRocket(direction) {
+        if (direction === "left" && rocketPosition > 0) {
+            rocketPosition -= 5;
+        } else if (direction === "right" && rocketPosition < 95) {
+            rocketPosition += 5;
+        }
+        rocket.style.left = rocketPosition + "%";
+    }
+    
+    document.addEventListener("keydown", function (event) {
+        if (event.key === "ArrowLeft") {
+            moveRocket("left");
+        } else if (event.key === "ArrowRight") {
+            moveRocket("right");
+        }
+    });
+    
+    let touchStartX = 0;
+    let touchEndX = 0;
+    
+    gameArea.addEventListener("touchstart", function (event) {
+        touchStartX = event.touches[0].clientX;
+    });
+    
+    gameArea.addEventListener("touchmove", function (event) {
+        touchEndX = event.touches[0].clientX;
+    });
+    
+    gameArea.addEventListener("touchend", function () {
+        if (touchEndX < touchStartX) {
+            moveRocket("left");
+        } else if (touchEndX > touchStartX) {
+            moveRocket("right");
+        }
+    });
+    
+    startButton.addEventListener("click", function () {
+        if (!gameStarted) {
+            gameStarted = true;
+            startButton.style.display = "none";
+            // Initialize game logic here if needed
+        }
+    });
+});
 
         gameLoop();
     </script>
